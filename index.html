@@ -40,15 +40,62 @@
 			font-family: 'Indie Flower', cursive;
 			text-align: center;
 		}
-		
+
+		#main{
+			margin-top: 20px;
+		}
+
+		#myCanvas{			
+			margin-left: auto; 
+			margin-top: 20px;
+		}
+
+		.area{
+			padding: 2px 2px;
+			font-size: 100px;
+			font-family: 'Indie Flower', cursive;
+			border: 1px solid;
+			height: 140px;
+		}
+
+		.row{
+			margin-top: 0 !important ;
+    		margin-bottom: 0 !important ;
+		}
+
 	</style>
 </head>
 
 <body>
 	<div id="main" class="container">
 		
-		<div class="row">
-			<!-- should I use canvas? -->
+		<div class="text-center">
+			<!-- should I use canvas? 
+			<canvas id="myCanvas" width="300" height="300" >
+				Your browser does not support the HTML5 canvas tag.
+			</canvas>-->
+
+			<dir class="row">
+				<div class="col"></div>
+				<div class="area col-md-2 border-top-0 border-left-0"> </div>
+				<div class="area col-md-2 border-top-0"></div>
+				<div class="area col-md-2 border-top-0 border-right-0"></div>
+				<div class="col"></div>
+			</dir>
+			<dir class="row">
+				<div class="col"></div>
+				<div class="area col-md-2 border-top-0 border-left-0"></div>
+				<div class="area col-md-2 border-top-0"></div>
+				<div class="area col-md-2 border-top-0 border-right-0"></div>
+				<div class="col"></div>
+			</dir>
+			<dir class="row">
+				<div class="col"></div>
+				<div class="area col-md-2 border-top-0 border-left-0 border-bottom-0"></div>
+				<div class="area col-md-2 border-top-0 border-bottom-0"></div>
+				<div class="area col-md-2 border-top-0 border-right-0 border-bottom-0"></div>
+				<div class="col"></div>
+			</dir>
 		</div>
 
 	</div>
@@ -60,7 +107,38 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 	
 	<script type="text/javascript">
+		/*
+		var c = document.getElementById("myCanvas");
+		var ctx = c.getContext("2d");
+		ctx.beginPath();
+		
+		ctx.moveTo(100, 0);
+		ctx.lineTo(100, 300);
+		ctx.moveTo(200, 0);
+		ctx.lineTo(200, 300);
 
+		ctx.moveTo(0, 100);
+		ctx.lineTo(300, 100);
+		ctx.moveTo(0, 200);
+		ctx.lineTo(300, 200);
+
+		ctx.stroke();
+		*/
+
+		var letter = 'X';
+
+		function setLetter(element){
+			element.text(letter);
+			letter = letter == 'X'? 'O' : 'X';
+		}
+
+		$(function(){
+
+			$(".area").click(function(){
+				setLetter($(this));
+			});
+
+		});
 	</script>
 
 </body>
@@ -68,3 +146,4 @@
 
 
 </html>
+
