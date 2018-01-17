@@ -77,23 +77,23 @@
 
 			<dir class="row">
 				<div class="col"></div>
-				<div class="area col-md-2 border-top-0 border-left-0"> </div>
-				<div class="area col-md-2 border-top-0"></div>
-				<div class="area col-md-2 border-top-0 border-right-0"></div>
+				<div class="area col-md-2 border-top-0 border-left-0" data-x="0" data-y="0"> </div>
+				<div class="area col-md-2 border-top-0" data-x="0" data-y="1"></div>
+				<div class="area col-md-2 border-top-0 border-right-0" data-x="0" data-y="2"></div>
 				<div class="col"></div>
 			</dir>
 			<dir class="row">
 				<div class="col"></div>
-				<div class="area col-md-2 border-top-0 border-left-0"></div>
-				<div class="area col-md-2 border-top-0"></div>
-				<div class="area col-md-2 border-top-0 border-right-0"></div>
+				<div class="area col-md-2 border-top-0 border-left-0" data-x="1" data-y="0"></div>
+				<div class="area col-md-2 border-top-0" data-x="1" data-y="1"></div>
+				<div class="area col-md-2 border-top-0 border-right-0" data-x="1" data-y="2"></div>
 				<div class="col"></div>
 			</dir>
 			<dir class="row">
 				<div class="col"></div>
-				<div class="area col-md-2 border-top-0 border-left-0 border-bottom-0"></div>
-				<div class="area col-md-2 border-top-0 border-bottom-0"></div>
-				<div class="area col-md-2 border-top-0 border-right-0 border-bottom-0"></div>
+				<div class="area col-md-2 border-top-0 border-left-0 border-bottom-0" data-x="2" data-y="0"></div>
+				<div class="area col-md-2 border-top-0 border-bottom-0" data-x="2" data-y="1"></div>
+				<div class="area col-md-2 border-top-0 border-right-0 border-bottom-0" data-x="2" data-y="2"></div>
 				<div class="col"></div>
 			</dir>
 		</div>
@@ -125,17 +125,48 @@
 		ctx.stroke();
 		*/
 
-		var letter = 'X';
+		var letter;
+		var board;
+		var move;
 
-		function setLetter(element){
-			element.text(letter);
-			letter = letter == 'X'? 'O' : 'X';
+		function clearGame(){
+			console.log("Starting new game...");
+
+			letter = 'X';
+			board = [["","",""], ["","",""], ["","",""]];
+			move = 0;
+		}
+
+		function findWinner(){
+			console.log(board);			
+			return false;
+		}
+
+		function thereIsAnWinner(){
+			return findWinner();
+		}
+
+		function setLetter(element, x, y){
+			
+			if(board[x][y] == ""){
+				board[x][y] = letter;
+				element.text(letter);
+				letter = letter == 'X'? 'O' : 'X';
+				move++;
+			}else{
+				console.log("Invalid move!")
+			}
+
+			if (move==9 || thereIsAnWinner()){
+				clearGame();	
+			}
 		}
 
 		$(function(){
+			clearGame();
 
 			$(".area").click(function(){
-				setLetter($(this));
+				setLetter($(this), $(this).data("x"), $(this).data("y"));
 			});
 
 		});
