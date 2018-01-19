@@ -129,21 +129,62 @@
 		var board;
 		var move;
 
+		function clearDivs(){
+			$(".area").text("");
+		}
+
 		function clearGame(){
 			console.log("Starting new game...");
 
 			letter = 'X';
 			board = [["","",""], ["","",""], ["","",""]];
+			clearDivs();
 			move = 0;
 		}
 
 		function findWinner(){
-			console.log(board);			
-			return false;
+			
+			console.log(board);
+			if(move>0){
+
+				//vertical
+				if( (board[0][0] == board[0][1]) && ( board[0][1] == board[0][2]) && (board[0][0] != "" ) ){
+					return true;
+				}
+				if( (board[1][0] == board[1][1] ) && ( board[1][1] == board[1][2]) && (board[1][0] != "" ) ){
+					return true;
+				}
+				if( (board[2][0] == board[2][1]) && (board[2][1] == board[2][2]) && (board[2][0] != "" ) ){
+					return true;
+				}
+
+				//horizontal
+				if( (board[0][0] == board[1][0]) && ( board[1][0] == board[2][0]) && (board[0][0] != "" ) ){
+					return true;
+				}
+				if( (board[0][1] == board[1][1] ) && ( board[1][1] == board[2][1]) && (board[0][1] != "" ) ){
+					return true;
+				}
+				if( (board[0][2] == board[1][2]) && (board[1][2] == board[2][2]) && (board[0][2] != "" ) ){
+					return true;
+				}
+
+				//diagonal
+				if( (board[0][0] == board[1][1]) && ( board[1][1] == board[2][2]) && (board[0][0] != "" ) ){
+					return true;
+				}
+				if( (board[0][2] == board[1][1] ) && ( board[1][1] == board[2][0]) && (board[0][2] != "" ) ){
+					return true;
+				}
+				
+			}
+			
 		}
 
-		function thereIsAnWinner(){
-			return findWinner();
+		
+
+		function changeLetter(){
+			letter = letter == 'X'? 'O' : 'X';
 		}
 
 		function setLetter(element, x, y){
@@ -151,15 +192,23 @@
 			if(board[x][y] == ""){
 				board[x][y] = letter;
 				element.text(letter);
-				letter = letter == 'X'? 'O' : 'X';
 				move++;
+
+				if (findWinner()){
+					alert(letter + " wins!!!");
+					clearGame();
+				}else if(move==9 ){
+					alert("It's a draw!!");
+					clearGame();
+				}
+
+				changeLetter();
+				
 			}else{
 				console.log("Invalid move!")
 			}
 
-			if (move==9 || thereIsAnWinner()){
-				clearGame();	
-			}
+
 		}
 
 		$(function(){
