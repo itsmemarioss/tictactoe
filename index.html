@@ -32,13 +32,17 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
 	<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+	
 
 	<style>
 		
-		#by {
-			margin-top: 15px;
+		* {
 			font-family: 'Indie Flower', cursive;
 			text-align: center;
+		}
+
+		#by{
+			margin-top: 15px;
 		}
 
 		#main{
@@ -67,33 +71,45 @@
 </head>
 
 <body>
-	<div id="main" class="container">
+	<div id="main" class="container-fuid">
 		
 		<div class="text-center">
 			<!-- should I use canvas? 
 			<canvas id="myCanvas" width="300" height="300" >
-				Your browser does not support the HTML5 canvas tag.
+				Your browser does not support the HTML5 canvas tag. 
 			</canvas>-->
 
 			<dir class="row">
-				<div class="col"></div>
-				<div class="area col-md-2 border-top-0 border-left-0" data-x="0" data-y="0"> </div>
-				<div class="area col-md-2 border-top-0" data-x="0" data-y="1"></div>
-				<div class="area col-md-2 border-top-0 border-right-0" data-x="0" data-y="2"></div>
+				<div class="col">
+					Players: 
+					<div class="btn-group text-center" data-toggle="buttons">
+  						<button id="computerBtn" type="button" class="btn btn-success">C</button>
+						<button type="button" id="twoPlayersBtn"  class="btn btn-secondary">2</button>
+					</div>
+				</div>
+				<div class="area col-md-2 border-top-0 border-left-0" data-x="0" data-y="0" id="00"></div>
+				<div class="area col-md-2 border-top-0" data-x="0" data-y="1" id="01"></div>
+				<div class="area col-md-2 border-top-0 border-right-0" data-x="0" data-y="2" id="02"></div>
 				<div class="col"></div>
 			</dir>
 			<dir class="row">
-				<div class="col"></div>
-				<div class="area col-md-2 border-top-0 border-left-0" data-x="1" data-y="0"></div>
-				<div class="area col-md-2 border-top-0" data-x="1" data-y="1"></div>
-				<div class="area col-md-2 border-top-0 border-right-0" data-x="1" data-y="2"></div>
+				<div class="col" >
+					Letter: 
+					<div class="btn-group text-center" data-toggle="buttons">
+  						<button id="xBtn" type="button" class="btn btn-success">X</button>
+						<button type="button" id="oBtn"  class="btn btn-secondary">O</button>
+					</div><br/>
+				</div>
+				<div class="area col-md-2 border-top-0 border-left-0" data-x="1" data-y="0" id="10"></div>
+				<div class="area col-md-2 border-top-0" data-x="1" data-y="1" id="11"></div>
+				<div class="area col-md-2 border-top-0 border-right-0" data-x="1" data-y="2" id="12"></div>
 				<div class="col"></div>
 			</dir>
 			<dir class="row">
-				<div class="col"></div>
-				<div class="area col-md-2 border-top-0 border-left-0 border-bottom-0" data-x="2" data-y="0"></div>
-				<div class="area col-md-2 border-top-0 border-bottom-0" data-x="2" data-y="1"></div>
-				<div class="area col-md-2 border-top-0 border-right-0 border-bottom-0" data-x="2" data-y="2"></div>
+				<div class="col" ></div>
+				<div class="area col-md-2 border-top-0 border-left-0 border-bottom-0" data-x="2" data-y="0" id="20"></div>
+				<div class="area col-md-2 border-top-0 border-bottom-0" data-x="2" data-y="1" id="21"></div>
+				<div class="area col-md-2 border-top-0 border-right-0 border-bottom-0" data-x="2" data-y="2" id="22"></div>
 				<div class="col"></div>
 			</dir>
 		</div>
@@ -105,7 +121,7 @@
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-	
+
 	<script type="text/javascript">
 		/*
 		var c = document.getElementById("myCanvas");
@@ -126,8 +142,10 @@
 		*/
 
 		var letter;
+		var player = "C";
 		var board;
 		var move;
+		var moves = ["00","01","02","10","11","12","20","21","22"];
 
 		function clearDivs(){
 			$(".area").text("");
@@ -138,6 +156,7 @@
 
 			letter = 'X';
 			board = [["","",""], ["","",""], ["","",""]];
+
 			clearDivs();
 			move = 0;
 		}
@@ -191,6 +210,12 @@
 			
 			if(board[x][y] == ""){
 				board[x][y] = letter;
+				//remove move
+				moves = moves.filter(function(value){
+					return value != ""+x+y;
+				});
+				console.log(moves);
+
 				element.text(letter);
 				move++;
 
@@ -208,6 +233,12 @@
 				console.log("Invalid move!")
 			}
 
+			if(player=="C" && move%2!=0){
+				console.log("Computer's turn");
+				option = moves[Math.floor(Math.random() * moves.length)];
+				setLetter($("#"+option),option[0],option[1]);
+			}
+
 
 		}
 
@@ -216,6 +247,22 @@
 
 			$(".area").click(function(){
 				setLetter($(this), $(this).data("x"), $(this).data("y"));
+			});
+
+			$("#xBtn").click(function(){
+				letter = "X";
+			});
+
+			$("#oBtn").click(function(){
+				letter = "O";
+			});
+
+			$("#computerBtn").click(function(){
+				player = "C";
+			});
+
+			$("#twoPlayersBtn").click(function(){
+				player = "2";
 			});
 
 		});
